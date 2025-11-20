@@ -1,22 +1,15 @@
-import { index, route, layout, type RouteConfig } from "@react-router/dev/routes";
+import { index, route, layout, type RouteConfig, prefix } from "@react-router/dev/routes";
 
 export default [
 
-    route('/login','./routes/login/index.tsx'), // /login
-    route('/search','./routes/search/index.tsx'), // /search
+    index('./routes/index.tsx'), // /
 
-    layout('./routes/layout.tsx',[
-        index("./routes/index.tsx"),        // /
-        route("/contact",'./routes/contact.tsx'),      // /contact
-        route("/profile",'./routes/profile/index.tsx'),      // /profile
-        route("/profile/:id",'./routes/profile/[id].tsx'),      // /dynamic profile ids
-        route('/posts', './routes/posts/index.tsx'), // /posts
-    ]),
-
-    // adding nested shared layout routes
-    layout('./routes/marketing/layout.tsx',[
-        route('/marketing',"./routes/marketing/index.tsx"), // /marketing
-        route('/marketing/contact','./routes/marketing/contact.tsx') // /marketing/contact
-    ]),
+    // using 'prefix' because 'layout' does not add path to the URL segment
+    ...prefix('counter',[ 
+        layout('./routes/counter/layout.tsx',[
+            index('./routes/counter/index.tsx'), // /counter
+            route('/reset','./routes/counter/reset.tsx') // /counter/reset
+        ])
+    ])
 
 ] satisfies RouteConfig;

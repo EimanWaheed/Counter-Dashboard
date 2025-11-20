@@ -9,8 +9,6 @@ import {
 
 import "./app.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import FetchTodos from "./api/fetchPosts";
-
 
 // Layout for head & scripts
 export function Layout({ children }: { children: React.ReactNode }) {
