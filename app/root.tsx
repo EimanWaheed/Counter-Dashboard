@@ -1,28 +1,18 @@
+import { Outlet, Link } from "react-router";
 import {
-  isRouteErrorResponse,
-  Links,
   Meta,
-  Outlet,
+  Links,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
 } from "react-router";
 
-import type { Route } from "./+types/root";
 import "./app.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import FetchTodos from "./api/fetchPosts";
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
 
+// Layout for head & scripts
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -41,11 +31,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Root App with navbar + outlet
 export default function App() {
-  return <Outlet />;
+  const queryClient = new QueryClient();
+  return (
+      <QueryClientProvider client={queryClient}>
+        <main className="p-4">
+          <Outlet />
+        </main>
+      </QueryClientProvider>
+
+    
+  );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+// Error boundary
+export function ErrorBoundary({ error }: any) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
